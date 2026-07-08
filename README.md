@@ -14,7 +14,7 @@ Analysis of mitochondrial genome assembly outcomes for 108 natural history speci
 
 *Left: log₁₀(reads QC) vs unique mitochondrial genes recovered, coloured by outcome. Right: reads QC distribution per outcome category with median bar. Samples below ~1M QC reads almost always fail; above that threshold DNA quality (proxied by collection age) becomes the limiting factor.*
 
-To see individual sample names, open the interactive version and hover over the chart: [output/reads_vs_assembly.html](output/reads_vs_assembly.html)
+To see individual sample names, open the interactive version and hover over the chart: [output/reads_vs_assembly.html](https://htmlpreview.github.io/?https://github.com/dickgroenenberg/aviti_genome_skim_24032/blob/main/output/reads_vs_assembly.html)
 
 ### 2 · Assembly outcome by collection decade
 
