@@ -22,7 +22,7 @@ To see individual sample names, open the interactive version and hover over the 
 
 *Stacked bar chart of circular / partial / fail counts per collection decade (n = 105 samples with known year). Older specimens skew towards fail, consistent with DNA degradation in dried museum material. Collector identity (χ² p = 0.28) and genus (χ² p = 0.65) showed no significant association with outcome.*
 
-To see which samples make up each bar segment, open the interactive version and hover over the chart: [output/contig_result_by_decade.html](output/contig_result_by_decade.html)
+To see which samples make up each bar segment, open the interactive version and hover over the chart: [output/contig_result_by_decade.html](https://htmlpreview.github.io/?https://github.com/dickgroenenberg/aviti_genome_skim_24032/blob/main/output/contig_result_by_decade.html)
 
 ---
 
