@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Contig result by collection decade</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root {
+    --color-circular: #2a9d8f;
+    --color-partial: #e9c46a;
+    --color-fail: #e76f51;
+    --bg: #fafaf8;
+    --text: #2b2b2b;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 32px 24px 48px;
+  }
+  .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  p.sub {
+    margin: 0 0 28px;
+    color: #666;
+    font-size: 14px;
+  }
+  .chart-container {
+    position: relative;
+    height: 520px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 20px 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .legend-note {
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: #888;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Contig assembly result by collection decade</h1>
+  <p class="sub">Hover over a segment to see the sample IDs it contains. n = 105 samples with a known collection year.</p>
+  <div class="chart-container">
+    <canvas id="chart"></canvas>
+  </div>
+  <p class="legend-note">circular = complete circular contig &nbsp;·&nbsp; partial = one or more linear contigs &nbsp;·&nbsp; fail = no contig assembled (NA)</p>
+</div>
+
+<script>
+const data = [
+  {"decade": 1890, "circular": [], "partial": ["RMNH.INS.25607"], "fail": []},
+  {"decade": 1900, "circular": [], "partial": [], "fail": ["RMNH.INS.22334"]},
+  {"decade": 1920, "circular": [], "partial": [], "fail": ["RMNH.INS.25473"]},
+  {"decade": 1930, "circular": [], "partial": [], "fail": ["RMNH.INS.25466"]},
+  {"decade": 1940, "circular": [], "partial": ["ZSM:Lep:160416"], "fail": []},
+  {"decade": 1960, "circular": ["RMNH.INS.25612", "ZSM:Lep:160420"], "partial": ["RMNH.INS.1719824"], "fail": ["ZSM:Lep:160419"]},
+  {"decade": 1970, "circular": [], "partial": ["RMNH.INS.1719816"], "fail": []},
+  {"decade": 1980, "circular": ["RMNH.INS.25679","RMNH.INS.25680","RMNH.INS.1719812","RMNH.INS.31811","RMNH.INS.31854","RMNH.INS.1719806","RMNH.INS.1719814","RMNH.INS.1719830","RMNH.INS.1719809"], "partial": ["RMNH.INS.1719810","RMNH.INS.21713","RMNH.INS.21714","RMNH.INS.21715","RMNH.INS.21717","RMNH.INS.21896","RMNH.INS.31810","RMNH.INS.23221","RMNH.INS.25683","MZLU00236121","MZLU00236123","RMNH.INS.1719813","RMNH.INS.25263","RMNH.INS.31855","RMNH.INS.1719807","RMNH.INS.1719808"], "fail": ["RMNH.INS.31812","RMNH.INS.22294","RMNH.INS.22295","RMNH.INS.22549","RMNH.INS.22553","RMNH.INS.23062"]},
+  {"decade": 1990, "circular": ["RMNH.INS.1719811","RMNH.INS.1719804","RMNH.INS.25676","RMNH.INS.25677","RMNH.INS.1719829","RMNH.INS.1719828","RMNH.INS.25610"], "partial": ["RMNH.INS.25608","RMNH.INS.1719831","RMNH.INS.23293","RMNH.INS.1719819","RMNH.INS.1719825","RMNH.INS.25112"], "fail": ["RMNH.INS.1719826","RMNH.INS.1719832","RMNH.INS.25609","RMNH.INS.31856","RMNH.INS.1556756","RMNH.INS.25479","RMNH.INS.25527","RMNH.INS.1719818","RMNH.INS.25492","RMNH.INS.25494","RMNH.INS.25502","RMNH.INS.25503","RMNH.INS.25504","RMNH.INS.25664","RMNH.5012129"]},
+  {"decade": 2000, "circular": ["RMNH.INS.1719815","RMNH.INS.25682","RMNH.INS.25613","RMNH.INS.25615"], "partial": ["RMNH.INS.15291","RMNH.INS.25493","RMNH.INS.25054","RMNH.INS.25614","RMNH.INS.25539","RMNH.INS.25541"], "fail": ["RMNH.5012114","RMNH.INS.25505","RMNH.INS.25506","RMNH.INS.25507","RMNH.INS.25508","RMNH.INS.25528","RMNH.INS.25534","RMNH.INS.1719805","RMNH.INS.25533","RMNH.INS.25480","RMNH.INS.25532"]},
+  {"decade": 2010, "circular": ["RMNH.INS.30287"], "partial": ["RMNH.INS.25526","RMNH.INS.25629","RMNH.INS.25536","RMNH.INS.17058"], "fail": ["RMNH.INS.25105","RMNH.INS.25538","RMNH.INS.18436","RMNH.INS.25525","RMNH.INS.25475","RMNH.INS.25476","RMNH.INS.25515","RMNH.INS.30295","RMNH.INS.25531"]},
+  {"decade": 2020, "circular": [], "partial": ["RMNH.INS.25463"], "fail": []}
+];
+
+const labels = data.map(d => d.decade + "s");
+const circular = data.map(d => d.circular.length);
+const partial  = data.map(d => d.partial.length);
+const fail     = data.map(d => d.fail.length);
+
+const idLists = { circular: data.map(d => d.circular), partial: data.map(d => d.partial), fail: data.map(d => d.fail) };
+
+function wrapIds(ids, perLine = 3) {
+  const lines = [];
+  for (let i = 0; i < ids.length; i += perLine) {
+    lines.push(ids.slice(i, i + perLine).join(', '));
+  }
+  return lines;
+}
+
+const ctx = document.getElementById('chart').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: labels,
+    datasets: [
+      { label: 'circular', data: circular, backgroundColor: '#2a9d8f', key: 'circular' },
+      { label: 'partial',  data: partial,  backgroundColor: '#e9c46a', key: 'partial' },
+      { label: 'fail',     data: fail,     backgroundColor: '#e76f51', key: 'fail' }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: { stacked: true, grid: { display: false }, title: { display: true, text: 'Collection decade' } },
+      y: { stacked: true, beginAtZero: true, ticks: { precision: 0 }, title: { display: true, text: 'Number of samples' } }
+    },
+    plugins: {
+      legend: { position: 'top' },
+      tooltip: {
+        callbacks: {
+          title: function(items) {
+            const item = items[0];
+            const key = item.dataset.key;
+            const count = item.raw;
+            return `${item.label} — ${item.dataset.label} (n=${count})`;
+          },
+          label: function(item) {
+            const key = item.dataset.key;
+            const ids = idLists[key][item.dataIndex];
+            if (!ids || ids.length === 0) return 'no samples';
+            return wrapIds(ids, 3);
+          }
+        },
+        backgroundColor: 'rgba(20,20,20,0.92)',
+        padding: 10,
+        titleFont: { size: 13, weight: '600' },
+        bodyFont: { size: 12 },
+        boxPadding: 4,
+        displayColors: false
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
